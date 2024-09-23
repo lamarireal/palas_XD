@@ -1,12 +1,12 @@
 from openpyxl import Workbook
 
-def save_to_excel (names, skus, precios, links, filename):
+def save_to_excel(pala, filename):
     workbook = Workbook()
     sheet = workbook.active
 
     sheet.append(["Nombre", "Sku", "Precio", "Link"])
 
-    for name, sku, precio, link in zip(names, skus, precios, links):
-        sheet.append([name, sku, precio, link])
+    for pala in pala:
+        sheet.append([pala.name, pala.sku, pala.precio, pala.link])
 
     workbook.save(filename)

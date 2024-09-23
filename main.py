@@ -5,10 +5,14 @@ from excel import save_to_excel
 
 all_palas = get_all_palas(total_pages = 5)
 
-names = []
-skus = []
-precios = []
-links = []
+class Pala:
+    def __init__(self, name, sku, precio, link):
+        self.name = name
+        self.sku = sku
+        self.precio = precio
+        self.link = link
+
+pala_obj = []
 
 for pala_link in all_palas:
     if pala_link:
@@ -17,23 +21,21 @@ for pala_link in all_palas:
         soup = BeautifulSoup(response.content, 'html.parser')
 
         name_pala = soup.find('span', class_='base')
-        if name_pala:
-            names.append(name_pala.text.strip())
-        else:
-            names.append("STFU")
+        name = name_pala.text.strip() if name_pala else "STFU"
         
         sku_pala = soup.find('span', class_='sku-label')
-        if sku_pala:
-            skus.append(sku_pala.text.strip())
-        else:
-            skus.append("STFU")
+        sku = sku_pala.text.strip() if sku_pala else "STFU"
         
         precio_pala = soup.find('span', class_='price')
-        if precio_pala:
-            precios.append(precio_pala.text.strip())
-        else:
-            precios.append("STFU")
+        precio = precio_pala.text.strip() if precio_pala else "STFU"
         
-        links.append(pala_link)
+        pala_object = Pala(name=name, sku=sku, precio=precio, link=pala_link)
+        pala_obj.append(pala_object)
 
-save_to_excel(names, skus, precios, links, filename="palas.xlsx")
+
+names = [pala.name for pala in pala_obj]
+skus = [pala.sku for pala in pala_obj]
+precios = [pala.precio for pala in pala_obj]
+links = [pala.link for pala in pala_obj]
+
+save_to_excel(pala_obj, filename="palas.xlsx")
