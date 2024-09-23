@@ -32,10 +32,4 @@ for pala_link in all_palas:
         pala_object = Pala(name=name, sku=sku, precio=precio, link=pala_link)
         pala_obj.append(pala_object)
 
-
-names = [pala.name for pala in pala_obj]
-skus = [pala.sku for pala in pala_obj]
-precios = [pala.precio for pala in pala_obj]
-links = [pala.link for pala in pala_obj]
-
 save_to_excel(pala_obj, filename="palas.xlsx")
